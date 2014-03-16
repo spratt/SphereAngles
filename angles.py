@@ -11,7 +11,7 @@ ERR_PAR = -2
 ################################################################################
 # Arguments
 
-import argparse, sys
+import argparse, sys, math
 
 parser = argparse.ArgumentParser(
     description='Given two meridians and two parallels on a sphere of a '
@@ -29,11 +29,14 @@ parser.add_argument('par2', type=float,
 parser.add_argument('--rad', type=float, default=1.0,
                    help='The radius of the sphere')
 
+def degToRad(angle):
+    return angle * math.pi / 180.0
+
 args = parser.parse_args()
-mrd1 = args.mrd1
-mrd2 = args.mrd2
-par1 = args.par1
-par2 = args.par2
+mrd1 = degToRad(args.mrd1)
+mrd2 = degToRad(args.mrd2)
+par1 = degToRad(args.par1)
+par2 = degToRad(args.par2)
 rad = args.rad
 
 print('mrd1={}, mrd2={}, par1={}, par2={}, rad={}'
@@ -65,6 +68,7 @@ if par1 < MIN_PAR or par1 > MAX_PAR or par2 < MIN_PAR or par2 > MAX_PAR:
 #    |       |
 #
 
+#    lat   lon
 a = (mrd1, par1)
 b = (mrd2, par1)
 c = (mrd2, par2)
@@ -73,3 +77,15 @@ print('a={}, b={}, c={}'.format(a, b, c))
 
 ################################################################################
 # Translate the spherical coordinates into cartesian coordinates
+
+def sphereToCartesian(point, radius):
+    lat, lon = point[0], point[1]
+    return (radius * math.sin(lat) * math.cos(lon),
+            radius * math.sin(lat) * math.sin(lat),
+            radius * math.cos(lat))
+
+p = sphereToCartesian(a, rad)
+q = sphereToCartesian(b, rad)
+r = sphereToCartesian(c, rad)
+
+print('p={}, q={}, r={}'.format(p, q, r))
