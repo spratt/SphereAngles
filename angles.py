@@ -92,9 +92,9 @@ print('a={}, b={}, c={}'.format(a, b, c))
 
 def sphereToCartesian(point, radius):
     lat, lon = point[0], point[1]
-    return (radius * math.sin(lat) * math.cos(lon),
-            radius * math.sin(lat) * math.sin(lon),
-            radius * math.cos(lon))
+    return (radius * math.cos(lat) * math.cos(lon),
+            radius * math.cos(lat) * math.sin(lon),
+            radius * math.sin(lat))
 
 p = sphereToCartesian(a, rad)
 q = sphereToCartesian(b, rad)
