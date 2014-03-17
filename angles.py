@@ -142,4 +142,4 @@ def radToDeg(angle):
 
 deg = radToDeg(rad)
 
-print('deg={}'.format(deg))
+print(deg)
